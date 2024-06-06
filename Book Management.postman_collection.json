@@ -1,0 +1,109 @@
+{
+	"info": {
+		"_postman_id": "df927a8d-38b8-46e8-b2c9-479b521b17c4",
+		"name": "Book Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "19091567",
+		"_collection_link": "https://red-satellite-830468.postman.co/workspace/My-Workspace~70adec8c-2baf-41bc-8bed-af03bf355fa7/collection/19091567-df927a8d-38b8-46e8-b2c9-479b521b17c4?action=share&source=collection_link&creator=19091567"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "http://localhost:3000/api/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"1232ssda323\",\n    \"password\":\"sumit123\",\n    \"role\":\"member\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "htptp://localhost:3000/api/auth/register"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Borrow",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Return",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Overdue list",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Books",
+			"item": [
+				{
+					"name": "Add Book",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Update Books",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "getAllBooks",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
