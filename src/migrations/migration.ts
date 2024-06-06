@@ -16,17 +16,17 @@ export const migrate = async () => {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT NOT NULL,
         password TEXT NOT NULL,
-        role TEXT NOT NULL
+        role TEXT NOT NULL CHECK (role IN ('admin', 'member'))
       );
   
       CREATE TABLE IF NOT EXISTS books (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT NOT NULL,
         author TEXT NOT NULL,
-        ISBN TEXT NOT NULL,
+        ISBN TEXT NOT NULL UNIQUE,
         publishedYear INTEGER NOT NULL,
-        quantity INTEGER NOT NULL,
-        status TEXT NOT NULL
+        quantity INTEGER NOT NULL CHECK (quantity >= 0),
+        status TEXT CHECK (status IN ('available', 'borrowed')) DEFAULT 'available'
       );
   
       CREATE TABLE IF NOT EXISTS borrowers (
