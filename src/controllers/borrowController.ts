@@ -34,10 +34,11 @@ export const borrowBook = async (req: Request, res: Response): Promise<void> => 
       return;
     }
 
-    const duplicateBorrower = await db.get(`SELECT id FROM borrowers WHERE userId = ? and bookId = ?`, [
-      userId,
-      bookId,
-    ]);
+    const duplicateBorrower = await db.get(
+      `SELECT borrowers.id FROM borrowers
+    WHERE borrowers.userId = ? AND borrowers.bookId = ? AND borrowers.returnDate IS NULL`,
+      [userId, bookId],
+    );
     if (duplicateBorrower) {
       res.status(400).json({ error: 'You have already borrowed this book' });
       await db.run('ROLLBACK');
@@ -107,5 +108,26 @@ export const returnBook = async (req: Request, res: Response): Promise<void> => 
   } catch (err) {
     await db.run('ROLLBACK'); // Rollback the transaction
     res.status(500).json({ error: err.message });
+  }
+};
+
+export const getOverdueBooks = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const db = await getDB();
+    const currentTime = new Date().getTime();
+    console.log('🚀 ~ getOverdueBooks ~ currentTime:', currentTime);
+    const overdueBooks = await db.all(
+      `
+      SELECT books.title, books.id, books.author, borrowers.borrowDate, borrowers.dueDate
+      FROM books
+      INNER JOIN borrowers ON books.id = borrowers.bookId
+      WHERE borrowers.returnDate IS NULL AND borrowers.dueDate < ?
+    `,
+      [currentTime],
+    );
+    res.status(200).json(overdueBooks);
+  } catch (err) {
+    console.error('Error retrieving overdue books:', err);
+    res.status(500).json({ error: 'An error occurred while retrieving overdue books' });
   }
 };
