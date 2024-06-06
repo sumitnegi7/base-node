@@ -5,7 +5,7 @@ import cors from 'cors';
 import authRoutes from './routes/authRoutes';
 import bookRoutes from './routes/bookRoutes';
 import borrowRoutes from './routes/borrowRoutes';
-import { connectDB } from './models/db';
+import { connectDB } from './database/db';
 
 const app = express();
 

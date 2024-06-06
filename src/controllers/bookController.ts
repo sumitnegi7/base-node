@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getDB } from '../models/db';
+import { getDB } from '../database/db';
 import { bookSchema } from '../validation/bookValidation';
 
 export const addBook = async (req: Request, res: Response): Promise<void> => {

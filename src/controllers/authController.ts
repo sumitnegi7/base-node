@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { getDB } from '../models/db';
+import { getDB } from '../database/db';
 import config from '../config/config';
 import { registerSchema, loginSchema } from '../validation/authValidation';
 
@@ -49,7 +49,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
     const validPassword = bcrypt.compareSync(password, user.password);
     if (!validPassword) {
-      res.status(401).json({ error: 'Invalid password' });
+      res.status(401).json({ error: 'Invalid username/password' });
       return;
     }
 

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getDB } from '../models/db';
+import { getDB } from '../database/db';
 import { borrowSchema, returnSchema } from '../validation/borrowValidation';
 
 /**
@@ -15,7 +15,9 @@ export const borrowBook = async (req: Request, res: Response): Promise<void> => 
     return;
   }
 
-  const { bookId, dueDate } = value;
+  const { bookId } = value;
+  let { dueDate } = value;
+  dueDate = new Date(dueDate).getTime();
   const userId = req.userId;
   const db = getDB();
 
@@ -58,9 +60,9 @@ export const borrowBook = async (req: Request, res: Response): Promise<void> => 
     } else {
       await db.run(`UPDATE books SET quantity = quantity - 1 WHERE id = ?`, [bookId]);
     }
-
+    const data = await db.get(`SELECT * from books where id = ?`, [bookId]);
     await db.run('COMMIT'); // Commit the transaction
-    res.status(201).json({ message: 'Book borrowed successfully' });
+    res.status(201).json({ message: 'Book borrowed successfully', data });
   } catch (err) {
     console.log('🚀 ~ borrowBook ~ err:', err);
     await db.run('ROLLBACK'); // Rollback the transaction on error
@@ -99,7 +101,7 @@ export const returnBook = async (req: Request, res: Response): Promise<void> => 
       return;
     }
 
-    const returnDate = new Date().toISOString();
+    const returnDate = new Date().getTime();
     await db.run(`UPDATE borrowers SET returnDate = ? WHERE id = ?`, [returnDate, borrow.id]);
     await db.run(`UPDATE books SET quantity = quantity + 1, status = 'available' WHERE id = ?`, [bookId]);
     const result = await db.get(`SELECT * from books where id = ?`, [bookId]);

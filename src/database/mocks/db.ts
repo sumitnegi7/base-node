@@ -39,7 +39,12 @@ export const migrate = async () => {
         FOREIGN KEY (userId) REFERENCES users(id),
         FOREIGN KEY (bookId) REFERENCES books(id)
       );
-      
+    `);
+};
+
+export const clearDB = async () => {
+  const db = await getDB();
+  await db.exec(`
       DELETE FROM users;
       DELETE FROM books;
       DELETE FROM borrowers;
