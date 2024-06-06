@@ -9,7 +9,8 @@
     "dev": " ts-node src/index.ts",
     "lint": "eslint .",
     "migrate": " ts-node src/migrations/migration.ts",
-    "test": "NODE_ENV=test jest"
+    "test": "NODE_ENV=test jest",
+    "format": "prettier --write src"
   },
   "keywords": [],
   "author": "",
